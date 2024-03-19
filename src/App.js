@@ -1,25 +1,80 @@
-import logo from './logo.svg';
+import { useEffect, useState } from "react";
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [users, setUsers] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        const countryCodes = ['us', 'ca', 'fr', 'de', 'jp'];
+
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => response.json())
+            .then(data => {
+                const usersWithFixedFlagsAndImages = data.map(user => {
+                    const countryCode = countryCodes[user.id % countryCodes.length];
+                    const genderPath = user.id % 2 === 0 ? 'men' : 'women';
+                    const imageIndex = user.id % 100;
+
+                    return {
+                        ...user,
+                        image: `https://randomuser.me/api/portraits/${genderPath}/${imageIndex}.jpg`,
+                        flag: `https://flagcdn.com/16x12/${countryCode}.png`
+                    };
+                });
+                setUsers(usersWithFixedFlagsAndImages);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, []);
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value.toLowerCase());
+    };
+
+    const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchQuery));
+
+    return (
+        <div className="container">
+            <div className="banner">
+                <h1>Direct Candidates</h1>
+                <p className="subtitle">These candidates have applied to you directly</p>
+            </div>
+
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search by name..."
+                    onChange={handleSearchChange}
+                    className="search-input"
+                />
+            </div>
+
+            <div className="card-container">
+                {filteredUsers.map(user => (
+                    <div className="card" key={user.id}>
+                        <img src={user.image} alt={user.name} className="card-image"/>
+                        <div className="card-info">
+                            <h2 className="card-name">
+                                {user.name}
+                                <img src={user.flag} alt="Country Flag" className="card-flag" />
+                            </h2>
+                            <div className="card-verified-badge">
+                                BORDERLESS VERIFIED
+                            </div>
+                            <div className="card-detail">
+                                <span className="card-detail-key">Location</span>
+                                <span className="card-detail-value">{user.address.city}</span>
+                            </div>
+                            <div className="card-detail">
+                                <span className="card-detail-key">Company</span>
+                                <span className="card-detail-value">{user.company.name}</span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 export default App;
