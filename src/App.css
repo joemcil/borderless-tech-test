@@ -146,12 +146,12 @@ body {
 
 .filter-select {
   padding: 10px 15px;
-  border: 2px solid #ddd; /* Change this color to match your theme */
+  border: 2px solid #ddd; 
   border-radius: 20px;
   background-color: #ffffff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-size: 16px;
-  color: #333333; /* Adjust text color as needed */
+  color: #333333; 
   cursor: pointer;
   outline: none;
   transition: all 0.3s ease;
@@ -159,10 +159,10 @@ body {
 }
 
 .filter-select:hover {
-  background-color: #f8f9fa; /* Slightly lighter background on hover */
+  background-color: #f8f9fa; 
 }
 
 .filter-select:focus {
-  border-color: #0056b3; /* Darker border color for focus */
-  box-shadow: 0 0 0 2px rgba(0, 87, 179, 0.25); /* Add a focus shadow */
+  border-color: #0056b3; 
+  box-shadow: 0 0 0 2px rgba(0, 87, 179, 0.25); 
 }
