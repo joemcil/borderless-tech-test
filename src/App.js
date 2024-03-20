@@ -4,6 +4,8 @@ import './App.css';
 const App = () => {
     const [users, setUsers] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [genderFilter, setGenderFilter] = useState(''); 
+    const [countryFilter, setCountryFilter] = useState(''); 
 
     useEffect(() => {
         const countryCodes = ['us', 'ca', 'fr', 'de', 'jp'];
@@ -19,7 +21,9 @@ const App = () => {
                     return {
                         ...user,
                         image: `https://randomuser.me/api/portraits/${genderPath}/${imageIndex}.jpg`,
-                        flag: `https://flagcdn.com/16x12/${countryCode}.png`
+                        flag: `https://flagcdn.com/16x12/${countryCode}.png`,
+                        gender: genderPath, 
+                        country: countryCode,
                     };
                 });
                 setUsers(usersWithFixedFlagsAndImages);
@@ -31,7 +35,19 @@ const App = () => {
         setSearchQuery(e.target.value.toLowerCase());
     };
 
-    const filteredUsers = users.filter(user => user.name.toLowerCase().includes(searchQuery));
+    const handleGenderFilterChange = (e) => {
+        setGenderFilter(e.target.value);
+    };
+
+    const handleCountryFilterChange = (e) => {
+        setCountryFilter(e.target.value);
+    };
+
+    const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchQuery) &&
+        (genderFilter === '' || user.gender === genderFilter) &&
+        (countryFilter === '' || user.country === countryFilter)
+    );
 
     return (
         <div className="container">
@@ -47,6 +63,19 @@ const App = () => {
                     onChange={handleSearchChange}
                     className="search-input"
                 />
+                <select onChange={handleGenderFilterChange} className="filter-select">
+                    <option value="">Filter by Gender</option>
+                    <option value="men">Men</option>
+                    <option value="women">Women</option>
+                </select>
+                <select onChange={handleCountryFilterChange} className="filter-select">
+                    <option value="">Filter by Country</option>
+                    <option value="us">United States</option>
+                    <option value="ca">Canada</option>
+                    <option value="fr">France</option>
+                    <option value="de">Germany</option>
+                    <option value="jp">Japan</option>
+                </select>
             </div>
 
             <div className="card-container">

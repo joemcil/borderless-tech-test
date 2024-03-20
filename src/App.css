@@ -128,6 +128,7 @@ body {
     border-radius: 20px; 
     outline: none; 
     transition: all 0.3s ease; 
+    margin: 0px 10px;
 }
 
 .search-input:focus {
@@ -141,4 +142,27 @@ body {
 
 .subtitle {
     color: grey;
+}
+
+.filter-select {
+  padding: 10px 15px;
+  border: 2px solid #ddd; /* Change this color to match your theme */
+  border-radius: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #333333; /* Adjust text color as needed */
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  margin: 0px 10px;
+}
+
+.filter-select:hover {
+  background-color: #f8f9fa; /* Slightly lighter background on hover */
+}
+
+.filter-select:focus {
+  border-color: #0056b3; /* Darker border color for focus */
+  box-shadow: 0 0 0 2px rgba(0, 87, 179, 0.25); /* Add a focus shadow */
 }
